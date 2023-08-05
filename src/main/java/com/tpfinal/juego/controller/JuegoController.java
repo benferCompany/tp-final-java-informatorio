@@ -21,30 +21,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JuegoController {
     private JuegoService juegoService;
+
+    ///Peticiones get
     @GetMapping("/{id}")
     public ResponseEntity<List<JuegoDTO>> visualizacionDeJuegos() {
 
         return new ResponseEntity<>(juegoService.visualizacionDeJuegos(),HttpStatus.OK);
     }
-
-    @PostMapping("/registroDeJuego")
-    public ResponseEntity<JuegoDTO> registroDeJuego(@RequestBody JuegoDTO juegoDTO){
-        return new ResponseEntity<>(juegoService.registroDeJuego(juegoDTO.getTitulo(), juegoDTO.getDescripcion(), juegoDTO.getFechaLanzamiento()),HttpStatus.CREATED);
-    }
-    @PostMapping
-    public ResponseEntity<JuegoDTO> agregarJuego(@RequestBody JuegoDTO juegoDTO){
-
-        return new ResponseEntity<>(juegoService.agregarJuego(juegoDTO), HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{id}")
-    public String eliminar(@PathVariable Long id){
-        if(juegoService.eliminar(id)){
-            return "El juego se elimino con éxito";
-        }
-        return "El juego no exite";
-    }
-
     @GetMapping("/visualizacionDeJuegosEnProgreso")
 
     public ResponseEntity<List<JuegoDTO>> visualizacionDeJuegosEnProgreso() {
@@ -59,16 +42,42 @@ public class JuegoController {
         return new ResponseEntity<>(juegoService.visualizaciónDeLosDevsDeUnJuego(idJuego),HttpStatus.OK);
     }
 
+    @GetMapping("/visualizacionDeJuegosFinalizados")
+    public ResponseEntity<List<JuegoDTO>> visualizacionDeJuegosFinalizados(){
+        return new ResponseEntity<>(juegoService.visualizacionDeJuegosFinalizados(),HttpStatus.OK);
+    }
+
+    //Peticiones Post
+
+    @PostMapping
+    public ResponseEntity<JuegoDTO> agregarJuego(@RequestBody JuegoDTO juegoDTO){
+
+        return new ResponseEntity<>(juegoService.agregarJuego(juegoDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/registroDeJuego")
+    public ResponseEntity<JuegoDTO> registroDeJuego(@RequestBody JuegoDTO juegoDTO){
+        return new ResponseEntity<>(juegoService.registroDeJuego(juegoDTO.getTitulo(), juegoDTO.getDescripcion(), juegoDTO.getFechaLanzamiento()),HttpStatus.CREATED);
+    }
+
+
+    ///Peticiones Delete
+
+    @DeleteMapping("/{id}")
+    public String eliminar(@PathVariable Long id){
+        if(juegoService.eliminar(id)){
+            return "El juego se elimino con éxito";
+        }
+        return "El juego no exite";
+    }
+
+//Peticiones Put
     @PutMapping("/asignacionDeUnDesarrolladorAUnJuego/{idJuego}")
     public ResponseEntity<JuegoDTO> asignacionDeUnDesarrolladorAUnJuego(@PathVariable Long idJuego, @RequestBody DesarrolladorDTO desarrolladorDTO){
 
         return new ResponseEntity<>(juegoService.asignacionDeUnDesarrolladorAUnJuego(idJuego,desarrolladorDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/visualizacionDeJuegosFinalizados")
-    public ResponseEntity<List<JuegoDTO>> visualizacionDeJuegosFinalizados(){
-        return new ResponseEntity<>(juegoService.visualizacionDeJuegosFinalizados(),HttpStatus.OK);
-    }
 
 
 }

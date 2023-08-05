@@ -23,12 +23,7 @@ public class DesarrolladorController {
     }
 
 
-    @PostMapping("/registroDeDesarrolladores")
-    public ResponseEntity<DesarrolladorDTO> registroDeDesarrolladores(@RequestParam String nombre,@RequestParam String correoElectronico,@RequestParam String rol){
-        return new ResponseEntity<>(desarrolladorService.registroDeDesarrolladores(nombre,correoElectronico,rol),HttpStatus.OK);
-    }
-
-
+    //Petociones Get
 
     @GetMapping("/{desarrolladorId}")
     public ResponseEntity<DesarrolladorDTO> obtenerDesarrolladorPorId(@PathVariable Long desarrolladorId) {
@@ -41,6 +36,15 @@ public class DesarrolladorController {
         List<Desarrollador> desarrolladores = desarrolladorService.obtenerDevsDeJuego(juegoId);
         return new ResponseEntity<>(desarrolladores, HttpStatus.OK);
     }
+
+    //Post
+    @PostMapping("/registroDeDesarrolladores")
+    public ResponseEntity<DesarrolladorDTO> registroDeDesarrolladores(@RequestParam String nombre,@RequestParam String correoElectronico,@RequestParam String rol){
+        return new ResponseEntity<>(desarrolladorService.registroDeDesarrolladores(nombre,correoElectronico,rol),HttpStatus.OK);
+    }
+
+
+
 
 
 

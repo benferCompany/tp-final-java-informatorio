@@ -22,18 +22,8 @@ public class TareaController {
         this.tareaService = tareaService;
     }
 
-    @PostMapping("/asignacionDeTareas")
-    public ResponseEntity<TareaDTO> asignacionDeTareas(@RequestBody TareaDTO tarea) {
-        TareaDTO nuevaTarea = tareaService.asignacionDeTareas(tarea.getDescripcion(),
-                tarea.getJuego().getId(),
-                tarea.getDesarrollador().getId(),
-                tarea.getFechaLimite());
 
-        return new ResponseEntity<>(nuevaTarea, HttpStatus.CREATED);
-    }
-
-
-
+    //Peticiones Get
     @GetMapping("/por-estado/{estado}")
     public ResponseEntity<List<Tarea>> buscarTareasPorEstado(@PathVariable String estado) {
         List<Tarea> tareasPorEstado = tareaService.buscarTareasPorEstado(estado);
@@ -49,15 +39,6 @@ public class TareaController {
     public ResponseEntity<List<TareaDTO>> visualizacionDeTareas(){
         return new ResponseEntity<>(tareaService.visualizacionDeTareas(),HttpStatus.OK);
     }
-    @PutMapping("/actualizacionDeEstadoTareas/{idTarea}")
-    public ResponseEntity<TareaDTO> actualizacionDeEstadoTareas(@PathVariable Long idTarea,@RequestParam String estado){
-
-        return new ResponseEntity<>(tareaService.actualizacionDeEstadoTareas(idTarea, estado),HttpStatus.OK);
-    }
-    @PostMapping("/busquedaDeTareas")
-    public ResponseEntity<List<TareaDTO>> busquedaDeTareas(@RequestParam String estado, @RequestParam String fechaLimite) throws ParseException {
-        return new ResponseEntity<>(tareaService.busquedaDeTareas(estado,fechaLimite),HttpStatus.OK);
-    }
     @GetMapping("/busquedaDeTareasPorUnJuego/{idJuego}")
     public ResponseEntity<List<TareaDTO>> busquedaDeTareasPorUnJuego(@PathVariable Long idJuego){
         return new ResponseEntity<>(tareaService.busquedaDeTareasPorUnJuego(idJuego),HttpStatus.OK);
@@ -67,5 +48,32 @@ public class TareaController {
     public ResponseEntity<List<TareaDTO>> busquedaDeTareasFueraDePlazo() {
         return new ResponseEntity<>(tareaService.busquedaDeTareasFueraDePlazo(),HttpStatus.OK);
 
+    }
+
+
+    //Peticiones Post
+    @PostMapping("/asignacionDeTareas")
+    public ResponseEntity<TareaDTO> asignacionDeTareas(@RequestBody TareaDTO tarea) {
+        TareaDTO nuevaTarea = tareaService.asignacionDeTareas(tarea.getDescripcion(),
+                tarea.getJuego().getId(),
+                tarea.getDesarrollador().getId(),
+                tarea.getFechaLimite());
+
+        return new ResponseEntity<>(nuevaTarea, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/busquedaDeTareas")
+    public ResponseEntity<List<TareaDTO>> busquedaDeTareas(@RequestParam String estado, @RequestParam String fechaLimite) throws ParseException {
+        return new ResponseEntity<>(tareaService.busquedaDeTareas(estado,fechaLimite),HttpStatus.OK);
+    }
+
+
+
+    //Peticiones Put
+
+    @PutMapping("/actualizacionDeEstadoTareas/{idTarea}")
+    public ResponseEntity<TareaDTO> actualizacionDeEstadoTareas(@PathVariable Long idTarea,@RequestParam String estado){
+
+        return new ResponseEntity<>(tareaService.actualizacionDeEstadoTareas(idTarea, estado),HttpStatus.OK);
     }
 }
