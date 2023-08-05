@@ -1,9 +1,19 @@
 package com.tpfinal.juego.entities;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Desarrollador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,9 +21,9 @@ public class Desarrollador {
     private String nombre;
     private String correoElectronico;
     private String rol;
-    @ManyToOne
-    @JoinColumn(name = "juego_id")
-    private Juego juego;
+    @ManyToMany(mappedBy = "desarrolladores")
+    @JsonManagedReference
+    private List<Juego> juegos;
 
-    // Constructores, getters y setters, etc.
+
 }
